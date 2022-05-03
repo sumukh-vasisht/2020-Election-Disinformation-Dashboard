@@ -1,0 +1,13 @@
+name: Russia-Ukraine-Disinformation
+title: Russia-Ukraine-Disinformation
+username:
+account: lazerlab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6038164
+bundleId: 5774396
+url: https://lazerlab.shinyapps.io/Russia-Ukraine-Disinformation/
+when: 1649341503.76116
+lastSyncTime: 1649341503.76116
+asMultiple: FALSE
+asStatic: FALSE

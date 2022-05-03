@@ -1,0 +1,13 @@
+name: tweets_latest_all_vs_fake_dashboard
+title: tweets_latest_all_vs_fake_dashboard
+username:
+account: lazerlab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4599876
+bundleId: 5749818
+url: https://lazerlab.shinyapps.io/tweets_latest_all_vs_fake_dashboard/
+when: 1648735853.01432
+lastSyncTime: 1648735853.01432
+asMultiple: FALSE
+asStatic: FALSE
