@@ -1,3 +1,31 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@jsradford 
+sumukh-vasisht
+/
+2020-Election-Disinformation-Dashboard
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+2020-Election-Disinformation-Dashboard/app.R
+@sumukh-vasisht
+sumukh-vasisht Init commit
+Latest commit 879c24f 14 hours ago
+ History
+ 1 contributor
+943 lines (808 sloc)  49.3 KB
+   
 #this is my version - not vaccine, but all tweets, all vs fake-only etc.
 #devtools::install_version("ggplot2", version = "3.2.1", repos = "http://cran.us.r-project.org")
 library(shiny)
@@ -185,27 +213,28 @@ ui <- navbarPage("USA 2020 Election Disinformation Dashboard",
                               h3("Background"),
                               #verbatimTextOutput("auth_output"),
                               div(
-                                "Falsities about the pandemic, vaccines, and mitigation strategies have undermined the public response to the COVID-19 pandemic. Moreover, the pandemic has accelerated the industrialization of disinformation, the wholesale production and dissemination of false and misleading information. Today we find ourselves playing catch up as disinformation producers churn out new content to persuade the public of falsities that often put the public at risk. The fact is we cannot keep up with all the disinformation coming out."
+                                "Falsities about voter fraud, election procedures, and prior results have undermined public trust in elections, the bedrock of democracy. Today, we live in the age of industrialized disinformation where false and misleading information is created wholesale by foreign adversites and domestic actors alike. Elections officials and security agencies are playing catch up as disinformation producers churn out new content that put democracy at risk. The fact is we cannot keep up with all the disinformation coming out."
                               ),
                               h3("How you can use this data"),
                               div(
-                                "This dashboard is intended to help public health agencies, policy makers, journalists, and other health communicators focus on addressing the most important pieces of disinformation: those stories, domains, and keywords that are driving the conversation. You can use our dashboard to:",
+                                "This dashboard is intended to help elections officials, policy makers, journalists, and other communicators focus on addressing the most important pieces of disinformation: those stories, domains, and keywords that are driving the conversation. You can use our dashboard to:",
                                 tags$ol(
                                   tags$li(
                                     "Understand what disinformation is popular in your area. You can do this by identifying the top disinformation links being shared in your state, comparing that to disinformation shared nationally and in other states, and comparing it to high-quality information being shared in your area."
                                     ), 
                                   tags$li(
-                                    "Inform other public health research. Using this dashboard, you can identify the common misconceptions about the pandemic in your area. You can then create surveys to better understand who truly holds these views and what messages may change their mind."
-                                    ), 
-                                  tags$li(
                                     "Shape your communication and coverage strategy: Combatting disinformation is a little different from combatting misinformation. It's not about fact checking articles or addressing false stories. It's about changing people's underlying worldview and confronting false narratives. Rather than play whack-a-mole with misinformation, our dashboard can help you understand the fundamental narratives that are driving disinformation."
-                                    )
+                                    ),
+                                  tags$li(
+                                    "Inform other elections research. Using this dashboard, you can identify the common misconceptions about elections in your area. You can then create surveys to better understand who truly holds these views and what messages may change their mind."
+                                    ) 
+                                  
                                 )
                               ),
                               
                               h3("Give us Feedback"),
                               div(
-                                "We are working diligently to make this dashboard as helpful as possible to public health officials, policy makers, and journalists. To do that, we need to hear from you. What do you want to see in this data? What other data would you like us to include? Set up a conversation today by emailing Jason Radford (j.radford@northeastern.edu) to discuss how to use the data and what we can do to help you."
+                                "We are working diligently to make this dashboard as helpful as possible to elections officials, policy makers, and journalists. To do that, we need to hear from you. What do you want to see in this data? What other data would you like us to include? Set up a conversation today by emailing Jason Radford (j.radford@northeastern.edu) to discuss how to use the data and what we can do to help you."
                               ),
                               
                               h3("Request a custom report or dashboard"),
@@ -227,7 +256,7 @@ ui <- navbarPage("USA 2020 Election Disinformation Dashboard",
                         tabPanel("Top Stories", value = "toplinks",
                                      fluidPage(
                                        tags$div(class="tagline",
-                                                tags$p("The Covid-19 tweets project at Northeastern University aims to understand how users across the United States are sharing pandemic-related information", 
+                                                tags$p("The Disinformation Reporting Service at Northeastern University aims to educate decision makers about disinformation relevant to them.", 
                                                        align="right", style = "float:right; width: 400px; font-size: 8pt; font-style: italic;")),
                                        br(),
                                        hr(),
@@ -275,7 +304,7 @@ ui <- navbarPage("USA 2020 Election Disinformation Dashboard",
                  tabPanel("Top keywords",
                           fluidPage(
                             tags$div(class="tagline",
-                                     tags$p("The Covid-19 tweets project at Northeastern University aims to understand how users across the United States are sharing pandemic-related information",
+                                     tags$p("The Disinformation Reporting Service at Northeastern University aims to educate decision makers about disinformation relevant to them.",
                                             align="right", style = "float:right; width: 400px; font-size: 8pt; font-style: italic;")),
                             br(),
                             hr(),
@@ -305,7 +334,7 @@ ui <- navbarPage("USA 2020 Election Disinformation Dashboard",
                  tabPanel("Top websites", 
                           fluidPage(
                             tags$div(class="tagline",
-                                     tags$p("The Covid-19 tweets project at Northeastern University aims to understand how users across the United States are sharing pandemic-related information", 
+                                     tags$p("The Disinformation Reporting Service at Northeastern University aims to educate decision makers about disinformation relevant to them.", 
                                             align="right", style = "float:right; width: 400px; font-size: 8pt; font-style: italic;")),
                             br(),
                             hr(),
@@ -480,7 +509,7 @@ ui <- navbarPage("USA 2020 Election Disinformation Dashboard",
                                          " at Northeastern University's Network Science Institute in Boston, MA. For additional information and press requests, contact David Lazer at d.lazer@neu.edu, Katherine Ognyanova at katya.ognyanova@rutgers.edu, and Matthew A. Baum at matthew_baum@hks.harvard.edu."),
                                      br(),
                                     
-                                     h3("The Data"),
+                                     h3("Where do the data come from?"),
                                      div("This work is based on the process described in Grinberg et al 2019 (1).  We monitor the accounts of 1.6 million public accounts on Twitter linked to identified registered voters in America."),
                                      br(),
                                      div("We retained only pandemic tweets by filtering using a broad list of keywords, phrases and hashtags related to the pandemic. The keyword list contains words directly related to the pandemic. A tweet was included in the sample if it contained at least one item from our list; it could be contained in the tweet text, quoted text, hashtag or any part of the URL string -- this does not include the content from the linked web page. For more details on tweet selection, see Gallagher et al (2)."),
@@ -489,11 +518,11 @@ ui <- navbarPage("USA 2020 Election Disinformation Dashboard",
                                      br(),                                   
                                      div("We then extracted all the shared URLs, domains and keywords from these tweets."),
                                      br(),
-                                     h3("What is disinformation and how is it different from misinformation?"),
+                                     h3("What is disinformation?"),
                                      div("Disinformation is information that has been intentionally created to mislead the audience. It may be false information presented as truth or true information presented in a misleading way. In either case, disinformation is engineered to create a false image of reality. This contrasts with misinformation which is information that is factually incorrect. Often people create misinformation to hide the truth. But, at the same time, people make mistakes and even the most rigorous journalists get things wrong. Focusing on misinformation means focusing on what people get right and wrong. Focusing on disinformation means focusing on the underlying false image of reality being proffered."),
                                      
                                      br(),
-                                    h3("How do we identify Disinformation"),
+                                    h3("How do we identify disinformation?"),
                                     div("We count as disinformation any news story produced by fake news websites - websites that are designed to create misrepresentations of reality either by fabricating news or echoing news that fits the misleading facts about world the website projects as reality. We rely on a tiered system for fake news combining data from existing lists of fake news sources and our own rating system for whether or not sources published false storied due to issues in their editorial process (as opposed to mere accidents)."),
                                     br(),
                                     div("When a user in our panel shares a link from a fake news website, we treat the content of that tweet as disinformation and we give the user a disinformation risk score. The more they share content from these sites, the higher their score."),
@@ -531,7 +560,7 @@ ui <- navbarPage("USA 2020 Election Disinformation Dashboard",
                  tabPanel("Others",
                           fluidPage(
                             tags$div(class="tagline",
-                                     tags$p("The Covid-19 tweets project at Northeastern University aims to understand how users across the United States are sharing pandemic-related information", 
+                                     tags$p("The Disinformation Reporting Service at Northeastern University aims to educate decision makers about disinformation relevant to them.", 
                                             align="right", style = "float:right; width: 400px; font-size: 8pt; font-style: italic;")),
                             br(),
                             hr(),
@@ -868,7 +897,7 @@ server <- function(input, output, session) {
       
       p <- ggplot(inputkeywordsdf_covid, aes(date, daily_total, color=term)) + # or 'value'
         geom_line() + theme_minimal() + ylab("daily total") + xlab("") +
-        labs(title=paste("Popularity of Covid-19 keywords on Twitter from November 1, 2021 to", format(Sys.time(), "%B %d, %Y"))) +
+        labs(title=paste("Popularity of Election keywords on Twitter from October 1, 2020 to January 6, 2021")) +
         theme(legend.position = "bottom") 
       
       p_interactive <- ggplotly(p, dynamicTicks = TRUE) %>%
@@ -941,3 +970,15 @@ shinyApp(ui = ui, server = server)
 
 
 
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
